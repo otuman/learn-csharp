@@ -79,5 +79,43 @@ namespace Vidly.Controllers
 
             return Content(String.Format("pageIndex={0}&sortby={1}", pageIndex, sortby));
         }
+        /* More about custom url Parameters  
+         *    Parameter sources(Parametr binding)
+         *    
+         *   In the URL : movies/edit/1
+         *   
+         *   In the query string: /movies/edit/?id=1
+         *   
+         *   In the form data: id=1
+         * 
+         */
+          
+
+
+        //Without contrains
+        //[Route("movies/released/{year}/{month}")]
+
+        /*With contraints 
+         * (
+         *    For more contraints google "ASP.NET MVC Attribute Route Contraints"        
+         * )       
+         */
+        [Route("movies/released/{year}/{month:regex(\\d{2}):range(1,12)}")]       
+        public ActionResult ByReleaseDate(int year, int month){
+
+           
+              if(month.ToString().Length > 2){
+                  return HttpNotFound();
+              }
+
+            return Content(String.Format("year={0}&month={1}", year, month));
+        }
+
+        public ActionResult List(){
+
+            var movie = new Movie() { Name = "Otoman" };
+           return View(movie);
+        }
+
     }
 }
